@@ -36,7 +36,7 @@ data = [
 
 ### Method
 
-```python
+```python -> return type annotation
 def create_order_df(self, data: list) -> pd.DataFrame:
     return pd.DataFrame(
         data,
