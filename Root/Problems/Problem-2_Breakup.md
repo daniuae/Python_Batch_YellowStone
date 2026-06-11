@@ -752,3 +752,563 @@ print(filtered)
 - Dictionary Filtering
 - Frequency Counting
 - Data Analysis Basics
+
+
+---
+
+# 🛣️ Product Sales Analyzer – Execution Roadmap
+
+This roadmap explains how the program flows from raw input to final output.
+
+---
+
+# 🎯 Goal
+
+Given a customer purchase string:
+
+```python
+"Laptop, laptop! Mouse Keyboard? Laptop"
+```
+
+We want to:
+
+1. Clean the text
+2. Extract product names
+3. Count purchases
+4. Find the best-selling product
+5. Filter products based on minimum purchase count
+
+---
+
+# 📌 High-Level Flow
+
+```text
+Raw Purchase Text
+        │
+        ▼
+Convert to Lowercase
+        │
+        ▼
+Remove Special Characters
+        │
+        ▼
+Split into Product List
+        │
+        ▼
+Count Product Frequencies
+        │
+        ▼
+Find Best-Selling Product
+        │
+        ▼
+Filter Products by Threshold
+        │
+        ▼
+Final Results
+```
+
+---
+
+# Step 0: Initial Input
+
+## Code
+
+```python
+product_text = (
+    "Laptop, laptop! Mouse Keyboard? Laptop"
+)
+```
+
+## Data Type
+
+```python
+str
+```
+
+## Value
+
+```python
+"Laptop, laptop! Mouse Keyboard? Laptop"
+```
+
+---
+
+# Step 1: Convert to Lowercase
+
+## Code
+
+```python
+clean_text = product_text.lower()
+```
+
+## Why?
+
+To make comparisons case-insensitive.
+
+Without this:
+
+```python
+Laptop
+laptop
+```
+
+would be treated as different products.
+
+---
+
+## Input
+
+```python
+"Laptop, laptop! Mouse Keyboard? Laptop"
+```
+
+## Output
+
+```python
+"laptop, laptop! mouse keyboard? laptop"
+```
+
+---
+
+# Step 2: Remove Special Characters
+
+## Code
+
+```python
+clean_text = re.sub(
+    r'[^\w\s]',
+    '',
+    clean_text
+)
+```
+
+## Why?
+
+We only want product names.
+
+Remove:
+
+```text
+,
+!
+?
+.
+@
+#
+$
+```
+
+---
+
+## Input
+
+```python
+"laptop, laptop! mouse keyboard? laptop"
+```
+
+## Output
+
+```python
+"laptop laptop mouse keyboard laptop"
+```
+
+---
+
+# Step 3: Split into Product List
+
+## Code
+
+```python
+products = clean_text.split()
+```
+
+## Why?
+
+Convert one long string into a list of products.
+
+---
+
+## Input
+
+```python
+"laptop laptop mouse keyboard laptop"
+```
+
+## Output
+
+```python
+[
+    'laptop',
+    'laptop',
+    'mouse',
+    'keyboard',
+    'laptop'
+]
+```
+
+---
+
+# Step 4: Count Product Purchases
+
+## Code
+
+```python
+frequency = {}
+
+for product in products:
+
+    frequency[product] = (
+        frequency.get(product, 0) + 1
+    )
+```
+
+## Why?
+
+Determine how many times each product was purchased.
+
+---
+
+## Iteration Breakdown
+
+### Iteration 1
+
+```python
+product = 'laptop'
+```
+
+Dictionary:
+
+```python
+{
+    'laptop': 1
+}
+```
+
+---
+
+### Iteration 2
+
+```python
+product = 'laptop'
+```
+
+Dictionary:
+
+```python
+{
+    'laptop': 2
+}
+```
+
+---
+
+### Iteration 3
+
+```python
+product = 'mouse'
+```
+
+Dictionary:
+
+```python
+{
+    'laptop': 2,
+    'mouse': 1
+}
+```
+
+---
+
+### Iteration 4
+
+```python
+product = 'keyboard'
+```
+
+Dictionary:
+
+```python
+{
+    'laptop': 2,
+    'mouse': 1,
+    'keyboard': 1
+}
+```
+
+---
+
+### Iteration 5
+
+```python
+product = 'laptop'
+```
+
+Dictionary:
+
+```python
+{
+    'laptop': 3,
+    'mouse': 1,
+    'keyboard': 1
+}
+```
+
+---
+
+## Final Frequency Dictionary
+
+```python
+{
+    'laptop': 3,
+    'mouse': 1,
+    'keyboard': 1
+}
+```
+
+---
+
+# Step 5: Find Best-Selling Product
+
+## Code
+
+```python
+best_selling = max(
+    frequency.items(),
+    key=lambda x: x[1]
+)
+```
+
+---
+
+## What Does frequency.items() Return?
+
+```python
+[
+    ('laptop', 3),
+    ('mouse', 1),
+    ('keyboard', 1)
+]
+```
+
+---
+
+## What Does lambda x:x[1] Mean?
+
+```python
+('laptop', 3)   → 3
+
+('mouse', 1)    → 1
+
+('keyboard', 1) → 1
+```
+
+Compare using the count value.
+
+---
+
+## Result
+
+```python
+('laptop', 3)
+```
+
+---
+
+# Step 6: Filter Products by Threshold
+
+## Code
+
+```python
+filtered = {}
+
+for product, count in frequency.items():
+
+    if count >= 2:
+        filtered[product] = count
+```
+
+---
+
+## Threshold
+
+```python
+2
+```
+
+---
+
+## Evaluation
+
+### Laptop
+
+```python
+3 >= 2
+```
+
+✅ Include
+
+```python
+{
+    'laptop': 3
+}
+```
+
+---
+
+### Mouse
+
+```python
+1 >= 2
+```
+
+❌ Exclude
+
+---
+
+### Keyboard
+
+```python
+1 >= 2
+```
+
+❌ Exclude
+
+---
+
+## Final Filtered Dictionary
+
+```python
+{
+    'laptop': 3
+}
+```
+
+---
+
+# 📊 Complete Data Transformation Journey
+
+## Initial Data
+
+```python
+"Laptop, laptop! Mouse Keyboard? Laptop"
+```
+
+⬇
+
+## Lowercase
+
+```python
+"laptop, laptop! mouse keyboard? laptop"
+```
+
+⬇
+
+## Remove Punctuation
+
+```python
+"laptop laptop mouse keyboard laptop"
+```
+
+⬇
+
+## Split
+
+```python
+[
+    'laptop',
+    'laptop',
+    'mouse',
+    'keyboard',
+    'laptop'
+]
+```
+
+⬇
+
+## Frequency Count
+
+```python
+{
+    'laptop': 3,
+    'mouse': 1,
+    'keyboard': 1
+}
+```
+
+⬇
+
+## Best Seller
+
+```python
+('laptop', 3)
+```
+
+⬇
+
+## Filter (count >= 2)
+
+```python
+{
+    'laptop': 3
+}
+```
+
+---
+
+# 🎓 Concepts Used in Each Step
+
+| Step | Concept |
+|--------|----------|
+| 1 | String Methods (`lower`) |
+| 2 | Regular Expressions (`re.sub`) |
+| 3 | String Splitting (`split`) |
+| 4 | Dictionaries |
+| 4 | Loops (`for`) |
+| 4 | Dictionary `.get()` |
+| 5 | `max()` Function |
+| 5 | Lambda Functions |
+| 6 | Conditional Statements (`if`) |
+| 6 | Dictionary Filtering |
+| All | Data Cleaning & Analysis |
+
+---
+
+# 🏆 Final Outputs
+
+```python
+products
+```
+
+```python
+['laptop', 'laptop', 'mouse', 'keyboard', 'laptop']
+```
+
+```python
+frequency
+```
+
+```python
+{
+    'laptop': 3,
+    'mouse': 1,
+    'keyboard': 1
+}
+```
+
+```python
+best_selling
+```
+
+```python
+('laptop', 3)
+```
+
+```python
+filtered
+```
+
+```python
+{
+    'laptop': 3
+}
+```
