@@ -1,46 +1,591 @@
-# Python Data Structures Lab
-
-## Lists, Tuples, Dictionaries, and Sets
+# Introduction to Python Dictionaries
 
 ---
 
-# Lab Objective
+# Section 1: Introduction
 
-The objective of this lab is to explore the critical functionality of Lists, Tuples, Dictionaries, and Sets in Python.
+A **Dictionary** in Python stores data as **key-value pairs**.
 
-Participants will learn how to:
+## Important Points
 
-* Create data structures
-* Access elements
-* Add and remove elements
-* Iterate through data structures
-* Manipulate data
-* Apply these structures in real-world scenarios
+* Uses curly braces `{ }`
+* Data is stored as `key : value`
+* Keys must be unique
+* Values can be:
 
-By the end of this lab, learners should be able to:
+  * Numbers
+  * Strings
+  * Lists
+  * Tuples
+  * Sets
+  * Other Dictionaries
+* Dictionaries are ideal for storing structured data such as:
 
-✅ Understand the properties and use cases of Lists, Tuples, Dictionaries, and Sets.
-
-✅ Perform essential operations such as:
-
-* Creation
-* Accessing Elements
-* Adding Elements
-* Removing Elements
-* Iteration
-* Manipulation
-
-✅ Apply these data structures to solve real-world problems.
+  * Employee Records
+  * Student Information
+  * Product Catalogs
+  * API Responses
 
 ---
 
-# Introduction to Data Structures
+## Dictionary Syntax
 
-## Lists
+```python
+dictionary_name = {
+    "key1": value1,
+    "key2": value2
+}
+```
 
-* Ordered collection of items
-* Mutable (can be modified)
-* Allows duplicate values
+### Example
+
+```python
+student = {
+    "id": 101,
+    "name": "Alice",
+    "course": "Python"
+}
+```
+
+---
+
+# Section 2: Creating a Dictionary (Employee Details Example)
+
+```python
+employee = {
+    "id": 101,
+    "name": "John Doe",
+    "department": "IT",
+    "salary": 55000
+}
+
+print("Employee Dictionary:", employee)
+```
+
+## Sample Output
+
+```text
+Employee Dictionary:
+{'id': 101, 'name': 'John Doe', 'department': 'IT', 'salary': 55000}
+```
+
+## Explanation
+
+We created a dictionary storing an employee's:
+
+* Employee ID
+* Name
+* Department
+* Salary
+
+Each piece of information is stored as a key-value pair.
+
+---
+
+# Section 3: Accessing Dictionary Values
+
+Values can be accessed using their keys.
+
+```python
+print("Employee Name:", employee["name"])
+print("Department:", employee["department"])
+```
+
+## Sample Output
+
+```text
+Employee Name: John Doe
+Department: IT
+```
+
+## Explanation
+
+The syntax is:
+
+```python
+dictionary[key]
+```
+
+Example:
+
+```python
+employee["name"]
+```
+
+returns:
+
+```text
+John Doe
+```
+
+---
+
+# Section 4: Updating Values
+
+Dictionary values can be modified using their keys.
+
+```python
+employee["salary"] = 60000
+
+print("Updated Salary:", employee)
+```
+
+## Sample Output
+
+```text
+Updated Salary:
+{'id': 101,
+ 'name': 'John Doe',
+ 'department': 'IT',
+ 'salary': 60000}
+```
+
+## Explanation
+
+The old salary value:
+
+```text
+55000
+```
+
+is replaced with:
+
+```text
+60000
+```
+
+---
+
+# Section 5: Adding a New Key-Value Pair
+
+New entries can be added by assigning a value to a new key.
+
+```python
+employee["location"] = "New York"
+
+print("After Adding Location:", employee)
+```
+
+## Sample Output
+
+```text
+After Adding Location:
+{'id': 101,
+ 'name': 'John Doe',
+ 'department': 'IT',
+ 'salary': 60000,
+ 'location': 'New York'}
+```
+
+## Explanation
+
+Since the key `"location"` did not exist, Python created it automatically.
+
+---
+
+# Section 6: Removing an Item (pop)
+
+## Method 1: `pop()`
+
+Removes a specific key and returns its value.
+
+```python
+removed = employee.pop("department")
+
+print("Removed:", removed)
+print(employee)
+```
+
+## Sample Output
+
+```text
+Removed: IT
+
+{'id': 101,
+ 'name': 'John Doe',
+ 'salary': 60000,
+ 'location': 'New York'}
+```
+
+## Explanation
+
+* `"department"` key is removed.
+* Its value `"IT"` is returned.
+
+---
+
+# Section 7: Removing Last Inserted Item (popitem)
+
+## Method 2: `popitem()`
+
+Removes the last inserted key-value pair.
+
+```python
+last_removed = employee.popitem()
+
+print("Removed last item:", last_removed)
+print(employee)
+```
+
+## Sample Output
+
+```text
+Removed last item:
+('location', 'New York')
+
+{'id': 101,
+ 'name': 'John Doe',
+ 'salary': 60000}
+```
+
+## Explanation
+
+Since `"location"` was added last, it gets removed.
+
+---
+
+# Section 8: Checking Key Existence (in)
+
+## Method 3: `in` Operator
+
+Checks whether a key exists.
+
+```python
+print("Is 'salary' present?", "salary" in employee)
+
+print("Is 'department' present?",
+      "department" in employee)
+```
+
+## Sample Output
+
+```text
+Is 'salary' present? True
+Is 'department' present? False
+```
+
+## Explanation
+
+Useful for avoiding errors before accessing keys.
+
+---
+
+# Section 9: Getting All Keys
+
+## Method 4: `keys()`
+
+Returns all dictionary keys.
+
+```python
+print("Keys:", employee.keys())
+```
+
+## Sample Output
+
+```text
+Keys:
+dict_keys(['id', 'name', 'salary'])
+```
+
+## Explanation
+
+Used when you only need the keys.
+
+---
+
+# Section 10: Getting All Values
+
+## Method 5: `values()`
+
+Returns all dictionary values.
+
+```python
+print("Values:", employee.values())
+```
+
+## Sample Output
+
+```text
+Values:
+dict_values([101, 'John Doe', 60000])
+```
+
+## Explanation
+
+Used when only values are required.
+
+---
+
+# Section 11: Getting Key-Value Pairs
+
+## Method 6: `items()`
+
+Returns keys and values together.
+
+```python
+print("Items:", employee.items())
+```
+
+## Sample Output
+
+```text
+Items:
+dict_items([
+('id', 101),
+('name', 'John Doe'),
+('salary', 60000)
+])
+```
+
+## Explanation
+
+Useful when iterating through both keys and values.
+
+---
+
+# Section 12: Using get() to Access Values Safely
+
+## Method 7: `get()`
+
+Accesses values safely.
+
+```python
+print("Salary using get:",
+      employee.get("salary"))
+
+print("Department using get:",
+      employee.get("department"))
+```
+
+## Sample Output
+
+```text
+Salary using get: 60000
+Department using get: None
+```
+
+## Explanation
+
+### Using Square Brackets
+
+```python
+employee["department"]
+```
+
+Produces:
+
+```python
+KeyError
+```
+
+if the key is missing.
+
+### Using get()
+
+```python
+employee.get("department")
+```
+
+Returns:
+
+```text
+None
+```
+
+without raising an error.
+
+---
+
+# Section 13: Clearing All Items
+
+## Method 8: `clear()`
+
+Removes all items from a dictionary.
+
+```python
+temp_emp = {
+    "role": "Engineer",
+    "level": 2
+}
+
+temp_emp.clear()
+
+print("After clear:", temp_emp)
+```
+
+## Sample Output
+
+```text
+After clear:
+{}
+```
+
+## Explanation
+
+The dictionary becomes empty.
+
+---
+
+# Section 14: Copying a Dictionary
+
+## Method 9: `copy()`
+
+Creates a shallow copy.
+
+```python
+employee_copy = employee.copy()
+
+print("Copied Employee:",
+      employee_copy)
+```
+
+## Sample Output
+
+```text
+Copied Employee:
+{'id': 101,
+ 'name': 'John Doe',
+ 'salary': 60000}
+```
+
+## Explanation
+
+Changes to one dictionary will not affect the other.
+
+---
+
+# Section 15: Updating a Dictionary
+
+## Method 10: `update()`
+
+Updates existing keys and adds new keys.
+
+```python
+employee.update({
+    "salary": 65000,
+    "department": "HR"
+})
+
+print("Updated Employee:",
+      employee)
+```
+
+## Sample Output
+
+```text
+Updated Employee:
+
+{'id': 101,
+ 'name': 'John Doe',
+ 'salary': 65000,
+ 'department': 'HR'}
+```
+
+## Explanation
+
+* Salary is modified from `60000` to `65000`
+* Department is added back
+
+---
+
+# Complete Dictionary Methods Summary
+
+| Method      | Purpose                   |
+| ----------- | ------------------------- |
+| `get()`     | Safely access values      |
+| `keys()`    | Return all keys           |
+| `values()`  | Return all values         |
+| `items()`   | Return key-value pairs    |
+| `update()`  | Update dictionary         |
+| `pop()`     | Remove specific key       |
+| `popitem()` | Remove last inserted item |
+| `copy()`    | Create a copy             |
+| `clear()`   | Remove all items          |
+| `in`        | Check key existence       |
+
+---
+
+# Real-World Case Study: Employee Management System
+
+```python
+employee = {
+    "id": 101,
+    "name": "John Doe",
+    "department": "IT",
+    "salary": 55000
+}
+
+employee["salary"] = 60000
+
+employee["location"] = "New York"
+
+if "department" in employee:
+    print("Department:",
+          employee["department"])
+
+employee.update({
+    "designation": "Senior Engineer"
+})
+
+print(employee)
+```
+
+## Output
+
+```text
+{
+ 'id': 101,
+ 'name': 'John Doe',
+ 'department': 'IT',
+ 'salary': 60000,
+ 'location': 'New York',
+ 'designation': 'Senior Engineer'
+}
+```
+
+---
+
+# Dictionary vs List
+
+| Feature        | Dictionary      | List            |
+| -------------- | --------------- | --------------- |
+| Storage        | Key-Value Pairs | Values Only     |
+| Access Speed   | Fast using Keys | By Index        |
+| Mutable        | Yes             | Yes             |
+| Duplicate Keys | Not Allowed     | Values Allowed  |
+| Best For       | Structured Data | Sequential Data |
+
+---
+
+# Key Takeaways
+
+✅ Dictionaries store data as key-value pairs
+
+✅ Keys must be unique
+
+✅ Values can be any Python object
+
+✅ Dictionaries are mutable
+
+✅ Common methods include:
+
+* `get()`
+* `keys()`
+* `values()`
+* `items()`
+* `update()`
+* `pop()`
+* `copy()`
+* `clear()`
+
+✅ Dictionaries are widely used in:
+
+* Employee Management Systems
+* Student Databases
+* Configuration Files
+* JSON Data
+* API Responses
+* Contact Management Systems
 * Indexed
 
 ### Example
