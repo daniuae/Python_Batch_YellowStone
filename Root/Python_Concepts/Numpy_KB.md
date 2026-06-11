@@ -1,5 +1,26 @@
 # NumPy Complete Tutorial in Python
+---
 
+# NumPy Learning Roadmap
+
+```text
+NumPy
+│
+├── Arrays
+│   ├── 1D
+│   ├── 2D
+│   └── 3D
+│
+├── Indexing
+├── Slicing
+├── Reshape
+├── Statistics
+├── Filtering
+├── Sorting
+├── Random Numbers
+├── Matrix Operations
+└── Real World Analysis
+```
 ## What is NumPy?
 
 **NumPy (Numerical Python)** is a powerful Python library used for:
@@ -670,28 +691,7 @@ Passed Students: [78 85 90 88]
 | np.hstack() | Horizontal Join |
 | np.random.randint() | Random Integers |
 
----
 
-# NumPy Learning Roadmap
-
-```text
-NumPy
-│
-├── Arrays
-│   ├── 1D
-│   ├── 2D
-│   └── 3D
-│
-├── Indexing
-├── Slicing
-├── Reshape
-├── Statistics
-├── Filtering
-├── Sorting
-├── Random Numbers
-├── Matrix Operations
-└── Real World Analysis
-```
 
 If you master:
 
