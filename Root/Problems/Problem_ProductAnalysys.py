@@ -4,7 +4,7 @@
 import re
 
 
-class WordFrequencyCounter:
+class ProductAnalysis:
     """
     A class to analyze word frequencies in a sentence.
     """
@@ -80,7 +80,7 @@ class WordFrequencyCounter:
 # ==========================================
 
 # Create object
-counter = WordFrequencyCounter()
+counter = ProductAnalysis()
 
 # Input sentence
 sentence = """
