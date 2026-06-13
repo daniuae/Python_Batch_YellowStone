@@ -1,692 +1,461 @@
-# NumPy Aggregation and GroupBy – Real-World Examples
+# IoT Sensor Data Analysis with Missing Value Interpolation (NumPy)
 
-## Learning Objectives
+## Objective
 
-After completing this topic, you will be able to:
-
-- Understand aggregation in NumPy
-- Use common aggregation functions
-- Perform GroupBy-like operations in NumPy
-- Analyze real-world business datasets
-- Build reporting logic commonly used in ETL pipelines
+Analyze IoT sensor data containing missing values, interpolate the missing data, and ensure the dataset is ready for analysis.
 
 ---
 
-# What is Aggregation?
+# Case Study
 
-Aggregation means combining multiple values into a single summarized value.
+A company collects temperature data from IoT sensors deployed in **3 cities** over **30 days**. Due to connectivity issues, some sensor readings are missing.
 
-Examples:
+### Goals
 
-| Data | Aggregation |
-|--------|------------|
-| Sales Amounts | Total Sales |
-| Employee Salaries | Average Salary |
-| Exam Marks | Maximum Mark |
-| Attendance Records | Attendance Percentage |
-
----
-
-# Why Aggregation is Important?
-
-In real-world projects, stakeholders rarely want raw data.
-
-Instead they ask questions such as:
-
-- What is the total revenue?
-- What is the average salary?
-- Which region performed best?
-- How many employees are present?
-
-Aggregation helps answer these questions.
+* Identify missing values in the dataset
+* Fill missing values using interpolation
+* Analyze the quality of interpolated data
+* Visualize original vs interpolated datasets
+* Prepare data for further analysis
 
 ---
 
-# Sample Dataset
+# Step 1: Import Required Libraries
 
-Daily sales of a store:
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+### Explanation
+
+| Library    | Purpose                                            |
+| ---------- | -------------------------------------------------- |
+| NumPy      | Numerical computations and handling missing values |
+| Matplotlib | Data visualization                                 |
+
+---
+
+# Step 2: Generate Synthetic Sensor Data
+
+Simulate temperature readings for 3 cities over 30 days and introduce random missing values.
 
 ```python
 import numpy as np
 
-sales = np.array([1000, 1200, 900, 1500, 1800])
-```
-
----
-
-# Common Aggregation Functions
-
-## Sum
-
-```python
-np.sum(sales)
-```
-
-Output:
-
-```text
-6400
-```
-
-Meaning:
-
-```text
-1000 + 1200 + 900 + 1500 + 1800
-```
-
----
-
-## Mean (Average)
-
-```python
-np.mean(sales)
-```
-
-Output:
-
-```text
-1280.0
-```
-
-Formula:
-
-```text
-Total Sales / Number of Sales
-```
-
----
-
-## Maximum
-
-```python
-np.max(sales)
-```
-
-Output:
-
-```text
-1800
-```
-
-Highest sale value.
-
----
-
-## Minimum
-
-```python
-np.min(sales)
-```
-
-Output:
-
-```text
-900
-```
-
-Lowest sale value.
-
----
-
-## Standard Deviation
-
-```python
-np.std(sales)
-```
-
-Measures data spread.
-
----
-
-## Variance
-
-```python
-np.var(sales)
-```
-
-Measures variability in data.
-
----
-
-# Aggregation Example
-
-```python
-import numpy as np
-
-sales = np.array([1000, 1200, 900, 1500, 1800])
-
-print("Total Sales:", np.sum(sales))
-print("Average Sales:", np.mean(sales))
-print("Maximum Sale:", np.max(sales))
-print("Minimum Sale:", np.min(sales))
-```
-
-Output:
-
-```text
-Total Sales: 6400
-Average Sales: 1280.0
-Maximum Sale: 1800
-Minimum Sale: 900
-```
-
----
-
-# Real-World Scenario: E-Commerce Sales Analysis
-
-Suppose an e-commerce company stores the following data:
-
-| Order ID | Region | Sales |
-|-----------|---------|---------|
-| 1 | North | 1000 |
-| 2 | South | 1200 |
-| 3 | North | 1500 |
-| 4 | East | 900 |
-| 5 | South | 1800 |
-| 6 | North | 1100 |
-
-Management wants:
-
-1. Total Sales per Region
-2. Average Sales per Region
-3. Highest Sales per Region
-
-This is known as a GroupBy operation.
-
----
-
-# Does NumPy Have GroupBy?
-
-No.
-
-Unlike Pandas:
-
-```python
-df.groupby("Region")
-```
-
-NumPy does not provide a built-in GroupBy method.
-
-However, we can achieve similar functionality using:
-
-- np.unique()
-- Boolean Masking
-- Aggregation Functions
-
----
-
-# Step 1: Create Dataset
-
-```python
-import numpy as np
-
-regions = np.array([
-    "North",
-    "South",
-    "North",
-    "East",
-    "South",
-    "North"
-])
-
-sales = np.array([
-    1000,
-    1200,
-    1500,
-    900,
-    1800,
-    1100
-])
-```
-
----
-
-# Step 2: Find Unique Groups
-
-```python
-unique_regions = np.unique(regions)
-
-print(unique_regions)
-```
-
-Output:
-
-```text
-['East' 'North' 'South']
-```
-
----
-
-# Step 3: GroupBy Using Boolean Masking
-
-```python
-for region in unique_regions:
-
-    mask = regions == region
-
-    total_sales = np.sum(sales[mask])
-
-    print(region, total_sales)
-```
-
-Output:
-
-```text
-East 900
-North 3600
-South 3000
-```
-
----
-
-# Understanding Boolean Masking
-
-For region = North
-
-```python
-regions == "North"
-```
-
-Output:
-
-```python
-array([
- True,
- False,
- True,
- False,
- False,
- True
-])
-```
-
-Applying mask:
-
-```python
-sales[regions == "North"]
-```
-
-Output:
-
-```python
-array([1000, 1500, 1100])
-```
-
-Aggregation:
-
-```python
-np.sum([1000,1500,1100])
-```
-
-Output:
-
-```text
-3600
-```
-
----
-
-# Complete GroupBy Example
-
-```python
-import numpy as np
-
-regions = np.array([
-    "North",
-    "South",
-    "North",
-    "East",
-    "South",
-    "North"
-])
-
-sales = np.array([
-    1000,
-    1200,
-    1500,
-    900,
-    1800,
-    1100
-])
-
-unique_regions = np.unique(regions)
-
-for region in unique_regions:
-
-    mask = regions == region
-
-    total_sales = np.sum(sales[mask])
-    average_sales = np.mean(sales[mask])
-    highest_sales = np.max(sales[mask])
-
-    print(f"""
-Region: {region}
-Total Sales: {total_sales}
-Average Sales: {average_sales}
-Highest Sale: {highest_sales}
-""")
-```
-
-Output:
-
-```text
-Region: East
-Total Sales: 900
-Average Sales: 900.0
-Highest Sale: 900
-
-Region: North
-Total Sales: 3600
-Average Sales: 1200.0
-Highest Sale: 1500
-
-Region: South
-Total Sales: 3000
-Average Sales: 1500.0
-Highest Sale: 1800
-```
-
----
-
-# Visual Representation
-
-```text
-Raw Data
-------------------------------------------------
-Region      Sales
-------------------------------------------------
-North       1000
-South       1200
-North       1500
-East        900
-South       1800
-North       1100
-------------------------------------------------
-
-Group By Region
-------------------------------------------------
-North -> [1000,1500,1100]
-South -> [1200,1800]
-East  -> [900]
-------------------------------------------------
-
-Aggregation
-------------------------------------------------
-North Total = 3600
-South Total = 3000
-East Total  = 900
-------------------------------------------------
-```
-
----
-
-# Real-World Example: Employee Salary Analysis
-
-## Dataset
-
-```python
-departments = np.array([
-    "IT",
-    "HR",
-    "IT",
-    "Finance",
-    "HR",
-    "IT"
-])
-
-salaries = np.array([
-    60000,
-    45000,
-    70000,
-    55000,
-    50000,
-    65000
-])
-```
-
----
-
-## Business Requirement
-
-HR wants:
-
-- Department-wise total salary
-- Average salary
-- Highest salary
-
----
-
-## Solution
-
-```python
-unique_departments = np.unique(departments)
-
-for dept in unique_departments:
-
-    dept_salary = salaries[departments == dept]
-
-    print(f"""
-Department: {dept}
-Total Salary: {np.sum(dept_salary)}
-Average Salary: {np.mean(dept_salary)}
-Maximum Salary: {np.max(dept_salary)}
-""")
-```
-
-Output:
-
-```text
-Department: Finance
-Total Salary: 55000
-Average Salary: 55000
-
-Department: HR
-Total Salary: 95000
-Average Salary: 47500
-
-Department: IT
-Total Salary: 195000
-Average Salary: 65000
-```
-
----
-
-# Faster GroupBy Using np.bincount()
-
-Useful when categories are numeric.
-
-## Example
-
-```python
-department_id = np.array([
-    0,
-    1,
-    0,
-    2,
-    1,
-    0
-])
-
-salary = np.array([
-    60000,
-    45000,
-    70000,
-    55000,
-    50000,
-    65000
-])
-
-totals = np.bincount(
-    department_id,
-    weights=salary
+np.random.seed(42)
+
+# Generate temperature data
+data = np.random.uniform(
+    20,
+    35,
+    size=(30, 3)
 )
 
-print(totals)
+# Introduce random missing values
+missing_indices = np.random.choice(
+    data.size,
+    size=10,
+    replace=False
+)
+
+data.flat[missing_indices] = np.nan
+
+cities = ["City_A", "City_B", "City_C"]
+
+print("Sensor Data (First 5 Days):")
+print(data[:5])
+```
+
+### Sample Output
+
+```text
+Sensor Data (First 5 Days):
+
+[[22.49080238 29.01428613 27.63641041]
+ [23.09197052 23.90514442         nan]
+ [27.31993942 32.92144649 30.84351718]
+ [30.21211215         nan 23.41722170]
+ [        nan 22.78987721 30.31072260]]
+```
+
+### Dataset Snapshot
+
+| Day | City_A | City_B | City_C |
+| --- | ------ | ------ | ------ |
+| 1   | 22.49  | 29.01  | 27.64  |
+| 2   | 23.09  | 23.91  | NaN    |
+| 3   | 27.32  | 32.92  | 30.84  |
+| 4   | 30.21  | NaN    | 23.42  |
+| 5   | NaN    | 22.79  | 30.31  |
+
+**NaN** indicates a missing sensor reading.
+
+---
+
+# Step 3: Identify Missing Values
+
+Use `np.isnan()` to count missing values for each city.
+
+```python
+missing_counts = np.sum(
+    np.isnan(data),
+    axis=0
+)
+
+for i, city in enumerate(cities):
+    print(
+        f"Missing values in {city}: "
+        f"{missing_counts[i]}"
+    )
+```
+
+### Sample Output
+
+```text
+Missing values in City_A: 3
+Missing values in City_B: 4
+Missing values in City_C: 3
+```
+
+---
+
+## How It Works
+
+### Detect Missing Values
+
+```python
+arr = np.array([10, np.nan, 20])
+
+print(np.isnan(arr))
 ```
 
 Output:
 
 ```text
-[195000 95000 55000]
+[False True False]
 ```
 
-Meaning:
-
-```text
-Department 0 = 195000
-Department 1 = 95000
-Department 2 = 55000
-```
-
----
-
-# Real-World Data Engineering Use Cases
-
-## 1. Sales Analytics
-
-```text
-Group By Region
-Calculate Total Revenue
-Calculate Average Order Value
-Find Top Performing Region
-```
-
----
-
-## 2. Attendance Analytics
-
-```text
-Group By Department
-Calculate Attendance Percentage
-Calculate Leave Count
-Find Departments with Low Attendance
-```
-
----
-
-## 3. Manufacturing Analytics
-
-```text
-Group By Factory
-Calculate Production Quantity
-Calculate Defect Rate
-Calculate Daily Output
-```
-
----
-
-## 4. Banking Analytics
-
-```text
-Group By Branch
-Calculate Total Deposits
-Calculate Loan Amounts
-Calculate Customer Counts
-```
-
----
-
-## 5. Healthcare Analytics
-
-```text
-Group By Hospital
-Calculate Patient Count
-Calculate Average Treatment Cost
-Calculate Recovery Rates
-```
-
----
-
-# Interview Questions
-
-## Q1. What is aggregation?
-
-Aggregation is the process of summarizing multiple values into a single value such as:
-
-- Sum
-- Average
-- Maximum
-- Minimum
-
----
-
-## Q2. Does NumPy support GroupBy?
-
-No.
-
-NumPy does not have a direct GroupBy function.
-
-Alternatives:
-
-- np.unique()
-- Boolean Masking
-- np.bincount()
-- Structured Arrays
-
----
-
-## Q3. Why is aggregation important?
-
-Aggregation helps convert raw data into business insights such as:
-
-- Revenue Reports
-- Salary Reports
-- Attendance Reports
-- Production Reports
-
----
-
-## Q4. Which aggregation functions are most commonly used?
+### Count Missing Values
 
 ```python
-np.sum()
-np.mean()
-np.max()
-np.min()
-np.std()
-np.var()
-np.median()
+np.sum(np.isnan(arr))
+```
+
+Output:
+
+```text
+1
 ```
 
 ---
 
-# Key Takeaways
+# Step 4: Fill Missing Values Using Linear Interpolation
+
+## What is Interpolation?
+
+Interpolation estimates missing values using nearby valid observations.
+
+### Example
+
+| Day | Temperature |
+| --- | ----------- |
+| 1   | 20          |
+| 2   | NaN         |
+| 3   | 30          |
+
+Interpolated value:
 
 ```text
-Aggregation
-    ↓
-Summarize Data
-    ↓
-sum(), mean(), min(), max()
-
-GroupBy
-    ↓
-Split Data into Groups
-    ↓
-Aggregate Each Group
-
-NumPy GroupBy
-    ↓
-np.unique()
-+
-Boolean Masking
-+
-Aggregation Functions
-
-Real Example:
-North -> 3600
-South -> 3000
-East  -> 900
+Day 2 = 25
 ```
 
-### Rule to Remember
+---
+
+## Linear Interpolation Formula
+
+[
+y = y_1 + \frac{(x-x_1)}{(x_2-x_1)}(y_2-y_1)
+]
+
+Where:
+
+* (x_1, y_1) = Previous valid point
+* (x_2, y_2) = Next valid point
+* (x, y) = Missing point
+
+---
+
+## Implementation
+
+```python
+data_filled = data.copy()
+
+for col in range(data.shape[1]):
+
+    # Row indices
+    indices = np.arange(len(data))
+
+    # Valid observations
+    valid_indices = ~np.isnan(data[:, col])
+
+    # Linear interpolation
+    data_filled[:, col] = np.interp(
+        indices,
+        indices[valid_indices],
+        data[valid_indices, col]
+    )
+
+print("Data After Linear Interpolation:")
+print(data_filled[:5])
+```
+
+### Sample Output
 
 ```text
-GroupBy = Split + Apply + Combine
+Data After Linear Interpolation:
 
-Split    → Divide data into groups
-Apply    → Perform aggregation
-Combine  → Produce summarized output
+[[22.49080238 29.01428613 27.63641041]
+ [23.09197052 23.90514442 29.23996379]
+ [27.31993942 32.92144649 30.84351718]
+ [30.21211215 27.85566185 23.41722170]
+ [26.77063372 22.78987721 30.31072260]]
 ```
 
-This pattern is heavily used in ETL pipelines, data warehousing, reporting systems, manufacturing analytics, attendance systems, banking analytics, and dashboard development.
+---
+
+## Explanation of the Logic
+
+### Create a Copy
+
+```python
+data_filled = data.copy()
+```
+
+Preserves the original dataset.
+
+### Generate Row Positions
+
+```python
+indices = np.arange(len(data))
+```
+
+Output:
+
+```text
+[0, 1, 2, ..., 29]
+```
+
+### Find Valid Data Points
+
+```python
+valid_indices = ~np.isnan(data[:, col])
+```
+
+Example:
+
+```text
+[True, True, True, False, True]
+```
+
+### Apply Interpolation
+
+```python
+np.interp(
+    indices,
+    indices[valid_indices],
+    data[valid_indices, col]
+)
+```
+
+Example:
+
+Before:
+
+```text
+[22, 25, NaN, 31, 34]
+```
+
+After:
+
+```text
+[22, 25, 28, 31, 34]
+```
+
+---
+
+# Step 5: Verify Missing Values Are Removed
+
+```python
+remaining_missing = np.sum(
+    np.isnan(data_filled)
+)
+
+print(
+    "Remaining Missing Values:",
+    remaining_missing
+)
+```
+
+### Output
+
+```text
+Remaining Missing Values: 0
+```
+
+---
+
+# Step 6: Analyze Interpolated Values
+
+```python
+for city_idx, city in enumerate(cities):
+
+    print(f"\n{city}")
+
+    original_missing = np.where(
+        np.isnan(data[:, city_idx])
+    )[0]
+
+    for idx in original_missing:
+
+        print(
+            f"Day {idx+1}: "
+            f"Interpolated Value = "
+            f"{data_filled[idx, city_idx]:.2f}"
+        )
+```
+
+### Sample Output
+
+```text
+City_A
+Day 5: Interpolated Value = 26.77
+
+City_B
+Day 4: Interpolated Value = 27.86
+
+City_C
+Day 2: Interpolated Value = 29.24
+```
+
+---
+
+# Step 7: Visualize Original vs Interpolated Data
+
+```python
+plt.figure(figsize=(12,6))
+
+for i, city in enumerate(cities):
+
+    plt.subplot(1,3,i+1)
+
+    plt.plot(
+        data_filled[:, i],
+        marker='o',
+        label='Interpolated'
+    )
+
+    plt.scatter(
+        np.where(np.isnan(data[:, i]))[0],
+        data_filled[np.isnan(data[:, i]), i],
+        s=100,
+        label='Filled Values'
+    )
+
+    plt.title(city)
+    plt.xlabel("Day")
+    plt.ylabel("Temperature (°C)")
+    plt.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+# Visualization Interpretation
+
+### Line Plot
+
+Displays continuous temperature trends after interpolation.
+
+### Highlighted Points
+
+Represent values that were originally missing and subsequently estimated.
+
+### Benefits
+
+* Detect unusual interpolations
+* Verify continuity in sensor readings
+* Ensure no unrealistic spikes or drops
+
+---
+
+# Real-World Applications
+
+## Smart Cities
+
+Recover missing weather sensor readings.
+
+## Agriculture
+
+Estimate missing soil temperature values.
+
+## Manufacturing
+
+Repair missing machine telemetry data.
+
+## Energy Sector
+
+Fill gaps in smart meter readings.
+
+## Environmental Monitoring
+
+Handle missing pollution sensor measurements.
+
+---
+
+# NumPy Concepts Used
+
+| Concept         | Purpose                      |
+| --------------- | ---------------------------- |
+| `np.nan`        | Represent missing values     |
+| `np.isnan()`    | Detect missing values        |
+| `np.sum()`      | Count missing values         |
+| `np.where()`    | Locate missing values        |
+| `np.interp()`   | Perform linear interpolation |
+| `np.arange()`   | Generate index positions     |
+| Boolean Masking | Select valid observations    |
+
+---
+
+# Summary
+
+✅ Generated IoT temperature sensor data
+
+✅ Introduced random missing values
+
+✅ Identified missing data using `np.isnan()`
+
+✅ Filled missing values using `np.interp()`
+
+✅ Verified all missing values were removed
+
+✅ Analyzed interpolated values
+
+✅ Visualized repaired sensor data
+
+✅ Prepared the dataset for analytics and machine learning
+
+---
+
+# Expected Learning Outcomes
+
+After completing this exercise, you will be able to:
+
+1. Detect missing values in NumPy arrays.
+2. Count and locate missing observations.
+3. Apply linear interpolation using `np.interp()`.
+4. Validate data quality after interpolation.
+5. Visualize repaired sensor datasets.
+6. Handle real-world IoT and time-series data effectively.
