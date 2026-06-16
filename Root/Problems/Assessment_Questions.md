@@ -288,38 +288,232 @@ None
 
 ---
 
+
 # Question Code: 2
 
+## Instructions
+
+1. Open the Learnlytica assessment tool.
+2. Enter your email address and the Question ID.
+3. Click **Start Assessment**.
+4. Once started, click **VSCode** to open the `solution.py` file.
+5. Write your solution in the file.
+6. Return to the assessment tool and click **Run Tests**.
+7. After the tests execute, click **Validate**.
+8. Once satisfied with your solution, click **Submit** and then **End Assessment**.
+
+---
+
+# Problem Statement
+
+Implement a **Word Frequency Counter** that takes a sentence as input and returns a dictionary where:
+
+* **Keys** → Words
+* **Values** → Word Frequencies
+
+The implementation should handle:
+
+* Punctuation removal
+* Case insensitivity
+
+---
+
+# Class Declaration
+
 ```python
-import re
-
 class WordFrequencyCounter:
-
-    def preprocess_text(self, text: str) -> list:
-        text = text.lower()
-        text = re.sub(r'[^\w\s]', '', text)
-        return text.split()
-
-    def compute_word_frequency(self, words: list) -> dict:
-        freq_dict = {}
-
-        for word in words:
-            freq_dict[word] = freq_dict.get(word, 0) + 1
-
-        return freq_dict
-
-    def get_most_frequent_word(self, freq_dict: dict) -> tuple:
-        if not freq_dict:
-            return None
-
-        return max(freq_dict.items(), key=lambda x: x[1])
-
-    def filter_words_by_frequency(self, freq_dict: dict, n: int) -> dict:
-        filtered = {}
-
-        for word, count in freq_dict.items():
-            if count >= n:
-                filtered[word] = count
-
-        return filtered
 ```
+
+No need to use an `__init__()` method.
+
+If required:
+
+```python
+def __init__(self):
+    pass
+```
+
+---
+
+# Operations
+
+## 1. Clean and Tokenize Input
+
+### Description
+
+Removes punctuation, converts the sentence to lowercase, and tokenizes words.
+
+### Function Prototype
+
+```python
+def preprocess_text(self, text: str) -> list:
+```
+
+### Example Input
+
+```python
+preprocess_text("Hello, hello! How are you?")
+```
+
+### Expected Output
+
+```python
+['hello', 'hello', 'how', 'are', 'you']
+```
+
+### Implementation Flow
+
+* Convert the input text to lowercase.
+* Remove punctuation using:
+
+```python
+re.sub(r'[^\w\s]', '', text)
+```
+
+* Split text into words using:
+
+```python
+text.split()
+```
+
+---
+
+## 2. Compute Word Frequency
+
+### Description
+
+Counts occurrences of each word in a dictionary.
+
+### Function Prototype
+
+```python
+def compute_word_frequency(self, words: list) -> dict:
+```
+
+### Example Input
+
+```python
+compute_word_frequency(
+    ['hello', 'hello', 'how', 'are', 'you']
+)
+```
+
+### Expected Output
+
+```python
+{
+    'hello': 2,
+    'how': 1,
+    'are': 1,
+    'you': 1
+}
+```
+
+### Implementation Flow
+
+* Declare an empty dictionary.
+* Iterate through the list using a `for` loop.
+* Use:
+
+```python
+freq_dict.get(word, 0)
+```
+
+to count occurrences.
+
+* Return a dictionary where:
+
+  * Keys = Words
+  * Values = Frequencies
+
+---
+
+## 3. Get Most Frequent Word
+
+### Description
+
+Returns the most frequent word and its count.
+
+### Function Prototype
+
+```python
+def get_most_frequent_word(self, freq_dict: dict) -> tuple:
+```
+
+### Example Input
+
+```python
+get_most_frequent_word(
+    {'hello': 2, 'how': 1, 'are': 1, 'you': 1}
+)
+```
+
+### Expected Output
+
+```python
+('hello', 2)
+```
+
+### Implementation Flow
+
+* If the dictionary is empty, return:
+
+```python
+None
+```
+
+* Find the highest frequency using:
+
+```python
+max(freq_dict.items(), key=lambda x: x[1])
+```
+
+* Return the word and its count as a tuple.
+
+---
+
+## 4. Filter Words by Minimum Frequency
+
+### Description
+
+Returns words that appear at least `n` times.
+
+### Function Prototype
+
+```python
+def filter_words_by_frequency(
+    self,
+    freq_dict: dict,
+    n: int
+) -> dict:
+```
+
+### Example Input
+
+```python
+filter_words_by_frequency(
+    {'hello': 2, 'how': 1, 'are': 1, 'you': 1},
+    2
+)
+```
+
+### Expected Output
+
+```python
+{
+    'hello': 2
+}
+```
+
+### Implementation Flow
+
+* Iterate over the dictionary using a `for` loop.
+* Include only words that meet or exceed the threshold:
+
+```python
+count >= n
+```
+
+* Return the filtered dictionary.
+* If no words qualify, return an empty dictionary.
+
