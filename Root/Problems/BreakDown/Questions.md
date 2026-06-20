@@ -1,5 +1,5 @@
 # Python Assessment Master Cheat Sheet
-## NumPy + Pandas + OOP (Learnlytica Validation Pattern Guide)
+## NumPy + Pandas + OOP  
 
 ---
 
