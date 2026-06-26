@@ -41,7 +41,102 @@ HashMap LinkedHashMap TreeMap
 ```
 
 ---
+# Java Collections Framework - Quick Summary Cheat Sheet
 
+## Collection Summary
+
+| Collection        | Short Summary                                                                                                             | Best Used For                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| **ArrayList**     | A dynamic array that provides fast random access (`O(1)`) and preserves insertion order. Best for read-heavy operations.  | Searching, indexing, storing ordered data.        |
+| **LinkedList**    | A doubly linked list that provides fast insertion and deletion at both ends but slow random access (`O(n)`).              | Queues, frequent insertions and deletions.        |
+| **Vector**        | A thread-safe version of `ArrayList`. All methods are synchronized, making it slower than `ArrayList`. Legacy collection. | Legacy multithreaded applications.                |
+| **Stack**         | Implements the **LIFO (Last In First Out)** principle using `push()`, `pop()`, and `peek()`.                              | Undo operations, recursion, browser history.      |
+| **HashSet**       | Stores only unique elements. Does not maintain insertion order. Provides very fast search, insertion, and deletion.       | Removing duplicates and fast membership checking. |
+| **LinkedHashSet** | Same as `HashSet` but preserves insertion order while maintaining uniqueness.                                             | Unique elements with insertion order.             |
+| **TreeSet**       | Stores unique elements in sorted order using a Red-Black Tree.                                                            | Sorted collections and range-based operations.    |
+| **PriorityQueue** | Retrieves elements according to priority (smallest element first by default), not insertion order.                        | Task scheduling, priority processing, heaps.      |
+| **ArrayDeque**    | Double-ended queue that allows insertion and deletion from both ends. Faster replacement for `Stack`.                     | Queue and stack implementations.                  |
+| **HashMap**       | Stores key-value pairs with unique keys. Provides the fastest lookup and does not maintain insertion order.               | Caching, indexing, lookup tables.                 |
+| **LinkedHashMap** | Same as `HashMap` but preserves insertion order (or access order if configured).                                          | LRU Cache and ordered maps.                       |
+| **TreeMap**       | Stores key-value pairs sorted by keys using a Red-Black Tree.                                                             | Sorted maps, leaderboards, ranking systems.       |
+| **Hashtable**     | Legacy synchronized implementation of `Map`. Does not allow `null` keys or values.                                        | Legacy thread-safe applications.                  |
+
+---
+
+# Quick Comparison Table
+
+| Collection        |      Ordered      |    Sorted    |    Duplicates   | Thread Safe |               Null Allowed               |
+| ----------------- | :---------------: | :----------: | :-------------: | :---------: | :--------------------------------------: |
+| **ArrayList**     |       ✅ Yes       |     ❌ No     |      ✅ Yes      |     ❌ No    |                   ✅ Yes                  |
+| **LinkedList**    |       ✅ Yes       |     ❌ No     |      ✅ Yes      |     ❌ No    |                   ✅ Yes                  |
+| **Vector**        |       ✅ Yes       |     ❌ No     |      ✅ Yes      |    ✅ Yes    |                   ✅ Yes                  |
+| **Stack**         |       ✅ LIFO      |     ❌ No     |      ✅ Yes      |    ✅ Yes    |                   ✅ Yes                  |
+| **HashSet**       |        ❌ No       |     ❌ No     |       ❌ No      |     ❌ No    |               ✅ One `null`               |
+| **LinkedHashSet** | ✅ Insertion Order |     ❌ No     |       ❌ No      |     ❌ No    |               ✅ One `null`               |
+| **TreeSet**       |        ❌ No       |     ✅ Yes    |       ❌ No      |     ❌ No    |                ❌ No `null`               |
+| **PriorityQueue** |  ❌ Priority Order | ✅ Heap Order |      ✅ Yes      |     ❌ No    |                ❌ No `null`               |
+| **ArrayDeque**    |    ✅ Both Ends    |     ❌ No     |      ✅ Yes      |     ❌ No    |                ❌ No `null`               |
+| **HashMap**       |        ❌ No       |     ❌ No     | Keys ❌ Values ✅ |     ❌ No    | ✅ One `null` key, Multiple `null` values |
+| **LinkedHashMap** | ✅ Insertion Order |     ❌ No     | Keys ❌ Values ✅ |     ❌ No    | ✅ One `null` key, Multiple `null` values |
+| **TreeMap**       |   ✅ Sorted Keys   |     ✅ Yes    | Keys ❌ Values ✅ |     ❌ No    |             ❌ No `null` keys             |
+| **Hashtable**     |        ❌ No       |     ❌ No     | Keys ❌ Values ✅ |    ✅ Yes    |        ❌ No `null` keys or values        |
+
+---
+
+# Interview One-Liners
+
+| Collection        | One-Line Description                                                  |
+| ----------------- | --------------------------------------------------------------------- |
+| **ArrayList**     | Dynamic array with fast random access and ordered storage.            |
+| **LinkedList**    | Doubly linked list optimized for insertions and deletions.            |
+| **Vector**        | Thread-safe version of `ArrayList`; slower due to synchronization.    |
+| **Stack**         | LIFO data structure used for undo operations and recursion.           |
+| **HashSet**       | Fastest collection for storing unique elements without order.         |
+| **LinkedHashSet** | `HashSet` that maintains insertion order.                             |
+| **TreeSet**       | Sorted set implemented using a Red-Black Tree.                        |
+| **PriorityQueue** | Processes elements based on priority rather than insertion order.     |
+| **ArrayDeque**    | High-performance double-ended queue used as both a queue and a stack. |
+| **HashMap**       | Fastest key-value collection with unique keys and unordered storage.  |
+| **LinkedHashMap** | `HashMap` that preserves insertion (or access) order.                 |
+| **TreeMap**       | Sorted map implemented using a Red-Black Tree.                        |
+| **Hashtable**     | Legacy synchronized `Map` that does not allow `null` keys or values.  |
+
+---
+
+# Selection Guide
+
+| Requirement                          | Recommended Collection                  |
+| ------------------------------------ | --------------------------------------- |
+| Fast random access                   | **ArrayList**                           |
+| Frequent insertion/deletion          | **LinkedList**                          |
+| Thread-safe List                     | **Vector**                              |
+| Stack operations (LIFO)              | **ArrayDeque** (preferred) or **Stack** |
+| Unique elements                      | **HashSet**                             |
+| Unique elements with insertion order | **LinkedHashSet**                       |
+| Unique elements in sorted order      | **TreeSet**                             |
+| Priority-based processing            | **PriorityQueue**                       |
+| Fast key-value lookup                | **HashMap**                             |
+| Ordered key-value storage            | **LinkedHashMap**                       |
+| Sorted key-value storage             | **TreeMap**                             |
+| Legacy thread-safe map               | **Hashtable**                           |
+
+---
+
+# Memory Trick
+
+* **ArrayList** → **Array = Fast Access**
+* **LinkedList** → **Links = Fast Insert/Delete**
+* **Vector** → **Synchronized ArrayList**
+* **Stack** → **LIFO**
+* **HashSet** → **Unique + Unordered**
+* **LinkedHashSet** → **Unique + Ordered**
+* **TreeSet** → **Unique + Sorted**
+* **PriorityQueue** → **Priority First**
+* **ArrayDeque** → **Queue + Stack**
+* **HashMap** → **Fast Key-Value Store**
+* **LinkedHashMap** → **Ordered HashMap**
+* **TreeMap** → **Sorted Map**
+* **Hashtable** → **Legacy Thread-Safe HashMap**
 # Why Collections?
 
 ## Without Collections
