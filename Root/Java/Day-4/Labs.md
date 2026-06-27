@@ -133,18 +133,39 @@ Methods change an object's internal state.
 ```java
 public class Printer {
 
+    // Method 1: Print a String
     public void print(String message) {
         System.out.println(message);
     }
 
+    // Method 2: Print an Integer
     public void print(int value) {
         System.out.println(value);
     }
 
+    // Method 3: Print a String multiple times
     public void print(String message, int count) {
         for (int i = 0; i < count; i++) {
             System.out.println(message);
         }
+    }
+
+    // Main method
+    public static void main(String[] args) {
+
+        Printer printer = new Printer();
+
+        System.out.println("Calling print(String):");
+        printer.print("Welcome to Java!");
+
+        System.out.println("\nCalling print(int):");
+        printer.print(100);
+
+        System.out.println("\nCalling print(String, int):");
+        printer.print("Method Overloading", 3);
+    }
+
+    public Printer() {
     }
 }
 ```
